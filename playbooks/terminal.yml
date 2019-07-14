@@ -1,0 +1,17 @@
+---
+ - hosts: all
+   remote_user: ec2-user
+   sudo: yes
+   tasks:
+    - name: installing shellinabox
+      shell: sudo rpm -ivh http://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/s/shellinabox-2.20-5.el7.x86_64.rpm
+
+    - name: starting shellinabox service
+      service: name=shellinaboxd state=started enabled=yes
+
+    - name: turning off firewall rules
+      shell: iptables -F
+
+    - name: turn off selinux
+      shell: setenforce 0
+
