@@ -16,9 +16,9 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
   host="localhost",
-  user="",
+  user="root",
   passwd="",
-  database="project"
+  database=""
 )
 
 mycursor=mydb.cursor()
@@ -31,7 +31,7 @@ hadoop=myresult[0][9]
 
 if hadoop=='0':
 #get the value of first name
-	os.system("ansible-playbook /etc/ansible/project_playbooks/hadoop.yml  -i '%s'     --extra-vars 'publicdns=%s hostname=%s private_ip=%s'  &>/dev/null  & "%(ip,publicdns_with_port, hostname, privateip))
+	subprocess.getoutput("sudo ansible-playbook /etc/ansible/project_playbooks/hadoop.yml  -i '%s'     --extra-vars 'publicdns=%s hostname=%s private_ip=%s'  &>/dev/null & "%(ip,publicdns_with_port, hostname, privateip))
          # root                       location                              passing Ip    passing variables   hostname:port   hostname     privateip
 	sql=("update register set hadoop = 1 where public_ip='{}'".format(pip))
 	mycursor.execute(sql)
