@@ -5,8 +5,6 @@
 #   3. After running this script you have to :
 #       a. Manually enter the IP and hostname of all DATANODES in  /etc/hosts  in NAMENODE.              (working on this automation)
 #       b. Allow the firewall in AWS in all machines. (Port Num. 50070,50010,and the one you specify)
-#   4. Now you can start the NameNode service  -    "hadoop-daemon.sh start namenode"
-#       
 
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-----------------------------------DATANODE SECTION --------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>
@@ -18,7 +16,7 @@
    remote_user: ec2-user
    gather_facts: no
    vars:
-     hadoop_url: http://13.234.66.67/summer19/bigdata/hadoop-2.7.3.tar.gz 
+     hadoop_url: https://archive.apache.org/dist/hadoop/core/hadoop-2.7.3/hadoop-2.7.3.tar.gz 
      java8_url: http://monalisa.cern.ch/MONALISA/download/java/jdk-8-linux-x64.rpm
      username: ec2-user
      namenodeip: "{{ publicdns }}"
@@ -120,16 +118,6 @@
     - name: Configuring Host Names .........
       command: hostnamectl set-hostname {{namenodehostname}}
     
-    #- name: bashrc reload
-    #  shell: exec bash   
-    #  args:
-    #    executable:
-    #      /bin/bash
-
-    #- name: Formatting the NameNode ...
-    #  command: hdfs namenode  -format
-  
-# ************************************************  
 
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-----------------------------------DATANODE SECTION --------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>
@@ -184,15 +172,6 @@
  - hosts: all
    remote_user: ec2-user
    tasks:
-    - name: Starting Resource manager
-      become: no
-      shell: yarn-daemon.sh start resourcemanager
-
-    - name: Starting Node manager
-      become: no
-      shell: yarn-daemon.sh start nodemanager
-
-
     - name: Starting namenode..
       become: no
       shell: hadoop-daemon.sh start namenode  
@@ -201,3 +180,12 @@
       become: no
       shell: hadoop-daemon.sh start datanode
 
+
+    - name: Starting Resource manager
+      become: no
+      shell: yarn-daemon.sh start resourcemanager
+
+    - name: Starting Node manager
+      become: no
+      shell: yarn-daemon.sh start nodemanager
+#

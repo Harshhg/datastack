@@ -34,6 +34,15 @@
                       count={{count}}
        register: ec2
 
+    # - name: allocate a  elastic IP and associate it with an instance
+    #   ec2_eip: 
+    #    aws_access_key: "{{ ac }}"
+    #    aws_secret_key: "{{ acs }}"
+    #    instance_id: "{{ item.id }}"
+    #    private_ip_address: "{{ item.private_ip }}"
+    #    region: "{{ region }}"
+    #   with_items: "{{ ec2.instances }}"
+
      - name: Add the newly created host so that we can further contact it
        add_host:
         name: "{{ item.public_ip }}"
@@ -92,5 +101,26 @@
       - name: turning off firewall rules
         shell: iptables -F
 
+      - name: Disabling SELINUX
+        lineinfile:
+         path: /etc/selinux/config
+         regexp: '^SELINUX='
+         line: 'SELINUX=disabled'
+
       - name: turn off selinux
         shell: setenforce 0
+
+
+      - name: adding python3 repository
+        yum_repository:
+         name: centos_o
+         description: custom repositories
+         baseurl: http://13.126.248.209/summer19/python3/
+         gpgcheck: no
+
+      - name: installing python3
+        shell: sudo yum install python3* -y
+
+      - name: installing jupyter
+        shell: sudo pip3 install jupyter
+
