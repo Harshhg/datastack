@@ -7,8 +7,6 @@
 #       b. Allow the firewall in AWS in all machines. (Port Num. 50070,50010,and the one you specify)
 #   4. Now you can start the NameNode service  -    "hadoop-daemon.sh start namenode"
 #       
-
-
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-----------------------------------DATANODE SECTION --------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>
 
 # ---- Configuring DATA NODES and Name Node ----
